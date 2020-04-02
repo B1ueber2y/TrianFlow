@@ -82,6 +82,14 @@ You could evaluate on the sampled KITTI odometry dataset by simply sampling the 
 
 ### Citation
 If you find our work useful in your research, please consider citing:
+```
+@inproceedings{zhao2020towards,
+  title={Towards Better Generalization: Joint Depth-Pose Learning without PoseNet},
+  author={Zhao, Wang and Liu, Shaohui and Shu, Yezhi and Liu, Yong-Jin},
+  booktitle={Proceedings of IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2020}
+}
+```
 
 ### Related Projects
 <a href="https://github.com/nianticlabs/monodepth2">Digging into Self-Supervised Monocular Depth Prediction.</a>
