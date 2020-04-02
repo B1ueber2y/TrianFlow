@@ -1,0 +1,47 @@
+cfg_name: 'default'
+
+# dataset
+raw_base_dir: '/home/zhaow/data/kitti'
+prepared_base_dir: '/home/zhaow/data/kitti_seq'
+gt_2012_dir: '/home/zhaow/data/kitti_stereo/kitti_2012/training'
+gt_2015_dir: '/home/zhaow/data/kitti_stereo/kitti_2015/training'
+static_frames_txt: '/home/zhaow/data/kitti_seq/static_frames.txt'
+test_scenes_txt: '/home5/zhaow/release/data/eigen/test_scenes.txt'
+dataset: 'kitti_depth'
+num_scales: 3
+
+# training
+num_iterations: 200000 # set -1 to use num_epochs
+num_epochs: 0
+
+# loss hyperparameters
+
+w_ssim: 0.85 # w_pixel = 1 - w_ssim
+w_flow_smooth: 10.0
+w_flow_consis: 0.01
+w_geo: 0.002 #0.002
+w_pt_depth: 0.0
+w_pj_depth: 0.000
+w_flow_error: 0.01
+w_depth_smooth: 0.000
+
+
+h_flow_consist_alpha: 3.0
+h_flow_consist_beta: 0.05
+
+# dfe setting
+dfe_depth: 3
+dfe_depth_scales: 4
+dfe_points: 500
+ransac_iters: 100
+ransac_points: 6000
+
+# Depth Setting
+depth_match_num: 6000
+depth_sample_ratio: 0.20
+depth_scale: 1
+
+# basic info
+img_hw: [256, 832]
+use_svd_gpu: False
+

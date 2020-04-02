@@ -1,0 +1,38 @@
+cfg_name: 'default'
+
+# dataset
+raw_base_dir: '/home5/zhaow/data/nyuv2_sub2'
+prepared_base_dir: '/home5/zhaow/data/nyu_seq_release'
+nyu_test_dir: '/home5/zhaow/data/nyuv2_test'
+dataset: 'nyuv2'
+num_scales: 3
+
+# training
+num_iterations: 500000 # set -1 to use num_epochs
+num_epochs: 0
+
+# loss hyperparameters
+w_ssim: 0.85 # w_pixel = 1 - w_ssim
+w_flow_smooth: 10.0
+w_flow_consis: 0.01
+w_geo: 0.0
+w_pt_depth: 0.0
+w_pj_depth: 0.5
+w_flow_error: 10.0
+w_depth_smooth: 0.00001
+
+
+h_flow_consist_alpha: 3.0
+h_flow_consist_beta: 0.05
+
+ransac_iters: 100
+ransac_points: 6000
+
+# Depth Setting
+depth_match_num: 6000
+depth_scale: 1
+
+# basic info
+img_hw: [192,256]
+block_tri_grad: False
+
