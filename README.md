@@ -15,7 +15,7 @@ pip install -r requirements.txt
 To run a depth prediction demo, you may need to first download the pretrained model from <a href="https://drive.google.com/drive/folders/1rPXlK9bJpjU0OQH5leDCvyb0FcL5jlUk?usp=sharing">here</a>.
 
 ```bash
-python test.py --config_file ./config/default_1scale.yaml --gpu 0 --mode depth --task demo --image_path ./data/demo/kitti.png --      pretrained_model ./models/pretrained/depth_pretrained.pth --result_dir ./data/demo
+python test.py --config_file ./config/default_1scale.yaml --gpu 0 --mode depth --task demo --image_path ./data/demo/kitti.png --pretrained_model ./models/pretrained/depth_pretrained.pth --result_dir ./data/demo
 ```
 This will give you a predicted depth map for demo image.
 ![img](./data/demo/kitti.png)
