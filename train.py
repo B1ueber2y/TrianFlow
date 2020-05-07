@@ -121,7 +121,7 @@ def train(cfg):
                     visualizer.add_log_pack({'eval_2012_res': eval_2012_res, 'eval_2015_res': eval_2015_res})
             elif cfg.dataset == 'nyuv2':
                 if not cfg.mode == 'flow':
-                    eval_nyu_res = test_nyu(cfg, model_eval, test_images, test_gt_depths, depth_save_dir=os.path.join(cfg.model_dir, 'results'))
+                    eval_nyu_res = test_nyu(cfg, model_eval, test_images, test_gt_depths)
                     visualizer.add_log_pack({'eval_nyu_res': eval_nyu_res})
             visualizer.dump_log(os.path.join(cfg.model_dir, 'log.pkl'))
         model.train()
@@ -144,7 +144,7 @@ def train(cfg):
     
     if cfg.dataset == 'kitti_depth':
         if cfg.mode == 'depth' or cfg.mode == 'depth_pose':
-            eval_depth_res = test_eigen_depth(cfg, model_eval, depth_save_dir=os.path.join(cfg.model_dir, 'results'))
+            eval_depth_res = test_eigen_depth(cfg, model_eval)
 
 if __name__ == '__main__':
     import argparse
