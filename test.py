@@ -204,7 +204,7 @@ if __name__ == '__main__':
     )
     arg_parser.add_argument('-c', '--config_file', default=None, help='config file.')
     arg_parser.add_argument('-g', '--gpu', type=str, default=0, help='gpu id.')
-    arg_parser.add_argument('--mode', type=str, default='flow', help='mode for testing.')
+    arg_parser.add_argument('--mode', type=str, default='depth', help='mode for testing.')
     arg_parser.add_argument('--task', type=str, default='kitti_depth', help='To test on which task, kitti_depth or kitti_flow or nyuv2 or demo')
     arg_parser.add_argument('--image_path', type=str, default=None, help='Set this only when task==demo. Depth demo for single image.')
     arg_parser.add_argument('--pretrained_model', type=str, default=None, help='directory for loading flow pretrained models')
@@ -231,7 +231,7 @@ if __name__ == '__main__':
     for attr in list(cfg.keys()):
         setattr(cfg_new, attr, cfg[attr])
 
-    if args.mode == 'flow_only':
+    if args.mode == 'flow':
         model = Model_flow(cfg_new)
     elif args.mode == 'depth' or args.mode == 'flow_3stage':
         model = Model_depth_pose(cfg_new)
