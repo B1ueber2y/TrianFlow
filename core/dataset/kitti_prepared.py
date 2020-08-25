@@ -85,8 +85,8 @@ class KITTI_Prepared(torch.utils.data.Dataset):
         return cam_intrinsics
 
     def rescale_intrinsics(self, K, img_hw_orig, img_hw_new):
-        K[0,:] = K[0,:] * img_hw_new[0] / img_hw_orig[0]
-        K[1,:] = K[1,:] * img_hw_new[1] / img_hw_orig[1]
+        K[0,:] = K[0,:] * img_hw_new[1] / img_hw_orig[1]
+        K[1,:] = K[1,:] * img_hw_new[0] / img_hw_orig[0]
         return K
 
     def get_intrinsics_per_scale(self, K, scale):
