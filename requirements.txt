@@ -12,7 +12,7 @@ networkx==2.3
 numpy==1.17.2
 opencv-python==4.2.0.32
 Pillow==9.0.1
-protobuf==3.11.2
+protobuf==3.15.0
 pycparser==2.19
 pyparsing==2.4.2
 pypng==0.0.20
