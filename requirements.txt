@@ -9,7 +9,7 @@ joblib==0.14.0
 kiwisolver==1.1.0
 matplotlib==3.1.1
 networkx==2.3
-numpy==1.17.2
+numpy==1.21.0
 opencv-python==4.2.0.32
 Pillow==9.0.1
 protobuf==3.15.0
