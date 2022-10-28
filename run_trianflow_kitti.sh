@@ -14,7 +14,7 @@ done
 
 # for track in $KITTI_tracks
 # do
-#     python ./core/evaluation/eval_odom.py   --gt_txt /media/airlabsimulation/Acer/Olaya_data/Datasets/SLAM/KITTI/data_odometry_poses/dataset/poses/$track.txt \
+#     python ./core/evaluation/eval_odom.py   --dataset kitti --gt_txt /media/airlabsimulation/Acer/Olaya_data/Datasets/SLAM/KITTI/data_odometry_poses/dataset/poses/$track.txt \
 #                                             --result_txt results/kitti/$track/trianflow_results.txt \
 #                                             --seq $track
 # done

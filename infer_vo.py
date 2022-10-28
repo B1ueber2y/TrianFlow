@@ -85,6 +85,9 @@ class infer_vo():
         if 'euroc' in self.dataset:
             self.raw_img_h = 480.0#320
             self.raw_img_w = 752.0#1024
+        if 'mimir' in self.dataset:
+            self.raw_img_h = 540.0#320
+            self.raw_img_w = 720.0#1024
         self.new_img_h = 256#320
         self.new_img_w = 832#1024
         self.max_depth = 50.0
@@ -130,6 +133,14 @@ class infer_vo():
                 cam_intrinsics[0,:] = cam_intrinsics[0,:] * self.new_img_w / self.raw_img_w
                 cam_intrinsics[1,:] = cam_intrinsics[1,:] * self.new_img_h / self.raw_img_w
             return cam_intrinsics
+        elif 'mimir' in self.dataset:
+            intrinsics_file = os.path.join(path, 'auv0', 'rgb','cam0')
+            with open(os.path.join(intrinsics_file, "sensor.yaml"), 'r') as stream:
+                sensor = yaml.safe_load(stream)
+                cam_intrinsics = np.asarray(sensor['intrinsics']).reshape((3,3))
+                cam_intrinsics[0,:] = cam_intrinsics[0,:] * self.new_img_w / self.raw_img_w
+                cam_intrinsics[1,:] = cam_intrinsics[1,:] * self.new_img_h / self.raw_img_w
+            return cam_intrinsics
     
     def load_images(self):
         path = self.img_dir
@@ -157,6 +168,18 @@ class infer_vo():
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                 image = cv2.resize(image, (new_img_w, new_img_h))
                 images.append(image)
+            return images
+
+        elif 'mimir' in self.dataset:
+            image_dir = os.path.join(seq_dir, 'auv0', 'rgb', 'cam0')
+            num = len(os.listdir(image_dir))
+            images = []
+            for img in sorted(os.listdir(image_dir)):
+                if 'png' in img:
+                    image = cv2.imread(os.path.join(image_dir, img),1)
+                    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                    image = cv2.resize(image, (new_img_w, new_img_h))
+                    images.append(image)
             return images
     
     def get_prediction(self, img1, img2, model, K, K_inv, match_num):
