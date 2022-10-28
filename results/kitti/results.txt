@@ -1,0 +1,66 @@
+Sequence: 00
+Translational error (%):  11.410849595810872
+Rotational error (deg/100m):  5.021359752143017
+-------------------- For Copying ------------------------------
+11.41
+5.02
+Sequence: 01
+Translational error (%):  59.30033241544114
+Rotational error (deg/100m):  2.750162971268679
+-------------------- For Copying ------------------------------
+59.30
+2.75
+Sequence: 02
+Translational error (%):  17.00813437758109
+Rotational error (deg/100m):  4.080322082850513
+-------------------- For Copying ------------------------------
+17.01
+4.08
+Sequence: 03
+Translational error (%):  10.159679319935968
+Rotational error (deg/100m):  5.041445690338527
+-------------------- For Copying ------------------------------
+10.16
+5.04
+Sequence: 04
+Translational error (%):  3.677221792294493
+Rotational error (deg/100m):  2.369274073261569
+-------------------- For Copying ------------------------------
+3.68
+2.37
+Sequence: 05
+Translational error (%):  18.461237885018768
+Rotational error (deg/100m):  6.4172075379359885
+-------------------- For Copying ------------------------------
+18.46
+6.42
+Sequence: 06
+Translational error (%):  4.452325773784116
+Rotational error (deg/100m):  2.4862558062038733
+-------------------- For Copying ------------------------------
+4.45
+2.49
+Sequence: 07
+Translational error (%):  10.847116964493908
+Rotational error (deg/100m):  6.888977192125384
+-------------------- For Copying ------------------------------
+10.85
+6.89
+Sequence: 08
+Translational error (%):  12.93916157921456
+Rotational error (deg/100m):  4.6863220851541
+-------------------- For Copying ------------------------------
+12.94
+4.69
+Sequence: 09
+Translational error (%):  9.947784553239336
+Rotational error (deg/100m):  3.9163130620240545
+-------------------- For Copying ------------------------------
+9.95
+3.92
+Sequence: 10
+Translational error (%):  13.497319397795907
+Rotational error (deg/100m):  6.008181619246756
+-------------------- For Copying ------------------------------
+13.50
+6.01

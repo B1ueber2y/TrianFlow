@@ -74,17 +74,22 @@ def cv_triangulation(matches, pose):
     return points1, points2
 
 class infer_vo():
-    def __init__(self, seq_id, sequences_root_dir):
+    def __init__(self, dataset, seq_id, sequences_root_dir):
+        self.dataset = dataset
         self.img_dir = sequences_root_dir
         #self.img_dir = '/home4/zhaow/data/kitti_odometry/sampled_s4_sequences/'
         self.seq_id = seq_id
-        self.raw_img_h = 370.0#320
-        self.raw_img_w = 1226.0#1024
+        if 'kitti' in self.dataset or 'KITTI' in self.dataset or 'Kitti' in self.dataset:
+            self.raw_img_h = 370.0#320
+            self.raw_img_w = 1226.0#1024
+        if 'euroc' in self.dataset:
+            self.raw_img_h = 480.0#320
+            self.raw_img_w = 752.0#1024
         self.new_img_h = 256#320
         self.new_img_w = 832#1024
         self.max_depth = 50.0
         self.min_depth = 0.0
-        self.cam_intrinsics = self.read_rescale_camera_intrinsics(os.path.join(self.img_dir, seq_id) + '/calib.txt')
+        self.cam_intrinsics = self.read_rescale_camera_intrinsics(os.path.join(self.img_dir, seq_id))
         self.flow_pose_ransac_thre = 0.1 #0.2
         self.flow_pose_ransac_times = 10 #5
         self.flow_pose_min_flow = 5
@@ -97,19 +102,34 @@ class infer_vo():
         self.PnP_ransac_times = 5
     
     def read_rescale_camera_intrinsics(self, path):
-        raw_img_h = self.raw_img_h
-        raw_img_w = self.raw_img_w
-        new_img_h = self.new_img_h
-        new_img_w = self.new_img_w
-        with open(path, 'r') as f:
-            lines = f.readlines()
-        data = lines[-1].strip('\n').split(' ')[1:]
-        data = [float(k) for k in data]
-        data = np.array(data).reshape(3,4)
-        cam_intrinsics = data[:3,:3]
-        cam_intrinsics[0,:] = cam_intrinsics[0,:] * new_img_w / raw_img_w
-        cam_intrinsics[1,:] = cam_intrinsics[1,:] * new_img_h / raw_img_h
-        return cam_intrinsics
+        if 'kitti' in self.dataset or 'KITTI' in self.dataset or 'Kitti' in self.dataset:
+            path = os.path.join(path, 'calib.txt')
+            raw_img_h = self.raw_img_h
+            raw_img_w = self.raw_img_w
+            new_img_h = self.new_img_h
+            new_img_w = self.new_img_w
+            with open(path, 'r') as f:
+                lines = f.readlines()
+            data = lines[-1].strip('\n').split(' ')[1:]
+            data = [float(k) for k in data]
+            data = np.array(data).reshape(3,4)
+            cam_intrinsics = data[:3,:3]
+            cam_intrinsics[0,:] = cam_intrinsics[0,:] * new_img_w / raw_img_w
+            cam_intrinsics[1,:] = cam_intrinsics[1,:] * new_img_h / raw_img_h
+            return cam_intrinsics
+        elif 'euroc' in self.dataset:
+            intrinsics_file = os.path.join(path, 'mav0', 'cam0','sensor.yaml')
+            with open(intrinsics_file, 'r') as file:
+                sensor = yaml.safe_load(file)
+                fx = sensor['intrinsics'][0]
+                fy = sensor['intrinsics'][1]
+                cx = sensor['intrinsics'][2]
+                cy = sensor['intrinsics'][3]
+
+                cam_intrinsics = np.array([[fx,0,cx],[0,fy,cy],[0,0,1]])
+                cam_intrinsics[0,:] = cam_intrinsics[0,:] * self.new_img_w / self.raw_img_w
+                cam_intrinsics[1,:] = cam_intrinsics[1,:] * self.new_img_h / self.raw_img_w
+            return cam_intrinsics
     
     def load_images(self):
         path = self.img_dir
@@ -117,14 +137,27 @@ class infer_vo():
         new_img_h = self.new_img_h
         new_img_w = self.new_img_w
         seq_dir = os.path.join(path, seq)
-        image_dir = os.path.join(seq_dir, 'image_2')
-        num = len(os.listdir(image_dir))
-        images = []
-        for i in range(num):
-            image = cv2.imread(os.path.join(image_dir, '%.6d'%i)+'.png')
-            image = cv2.resize(image, (new_img_w, new_img_h))
-            images.append(image)
-        return images
+
+        if 'kitti' in self.dataset or 'KITTI' in self.dataset or 'Kitti' in self.dataset:
+            image_dir = os.path.join(seq_dir, 'image_2')
+            num = len(os.listdir(image_dir))
+            images = []
+            for i in range(num):
+                image = cv2.imread(os.path.join(image_dir, '%.6d'%i)+'.png')
+                image = cv2.resize(image, (new_img_w, new_img_h))
+                images.append(image)
+            return images
+
+        elif 'euroc' in self.dataset:
+            image_dir = os.path.join(seq_dir, 'mav0', 'cam0', 'data')
+            num = len(os.listdir(image_dir))
+            images = []
+            for img in sorted(os.listdir(image_dir)):
+                image = cv2.imread(os.path.join(image_dir, img),1)
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                image = cv2.resize(image, (new_img_w, new_img_h))
+                images.append(image)
+            return images
     
     def get_prediction(self, img1, img2, model, K, K_inv, match_num):
         # img1: [3,H,W] K: [3,3]
@@ -303,7 +336,8 @@ if __name__ == '__main__':
 
     with open(args.config_file, 'r') as f:
         cfg = yaml.safe_load(f)
-    cfg['dataset'] = 'kitti_odo'
+    # cfg['dataset'] = 'kitti_odo'
+    dataset = cfg['dataset']
     # copy attr into cfg
     for attr in dir(args):
         if attr[:2] != '__':
@@ -326,7 +360,7 @@ if __name__ == '__main__':
     print('Model Loaded.')
 
     print('Testing VO.')
-    vo_test = infer_vo(args.sequence, args.sequences_root_dir)
+    vo_test = infer_vo(dataset,args.sequence, args.sequences_root_dir)
     images = vo_test.load_images()
     print('Images Loaded. Total ' + str(len(images)) + ' images found.')
     poses = vo_test.process_video(images, model)
