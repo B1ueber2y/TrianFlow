@@ -1,5 +1,5 @@
 # MIMIR_tracks='MH_02_easy MH_03_medium MH_04_difficult MH_05_difficult V1_01_easy V1_02_medium V1_03_difficult V2_01_easy V2_02_medium V2_03_difficult'
-MIMIR_tracks='SeaFloor/track0 SeaFloor/track1 SeaFloor/track2 SeaFloor_Algae/track0 SeaFloor_Algae/track1 SeaFloor_Algae/track2'
+MIMIR_tracks='SeaFloor/track0 SeaFloor/track1 SeaFloor_Algae/track0 SeaFloor_Algae/track1 OceanFloor/track0_light OceanFloor/track0_dark'
 
 for track in $MIMIR_tracks
 do
@@ -9,7 +9,7 @@ do
                         --traj_save_dir_txt results/mimir/$track/trianflow_results.txt \
                         --sequences_root_dir /media/airlabsimulation/Acer/Olaya_data/Datasets/SLAM/MIMIR \
                         --sequence $track \
-                        --pretrained_model /media/airlabsimulation/Acer/Olaya_data/SLAM_SOA/TrianFlow/models/tum.pth 
+                        --pretrained_model /media/airlabsimulation/Acer/Olaya_data/SLAM_SOA/learning-based/TrianFlow/models/tum.pth 
                 
 done   
 

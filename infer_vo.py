@@ -21,7 +21,7 @@ def save_traj(path, poses):
     path: file path of saved poses
     poses: list of global poses
     """
-    f = open(path, 'w')
+    f = open(path, 'w+')
     for i in range(len(poses)):
         pose = poses[i].flatten()[:12] # [3x4]
         line = " ".join([str(j) for j in pose])
@@ -88,6 +88,9 @@ class infer_vo():
         if 'mimir' in self.dataset:
             self.raw_img_h = 540.0#320
             self.raw_img_w = 720.0#1024
+        if 'tum' in self.dataset:
+            self.raw_img_h = 480.0#320
+            self.raw_img_w = 640.0#1024
         self.new_img_h = 256#320
         self.new_img_w = 832#1024
         self.max_depth = 50.0
@@ -141,6 +144,11 @@ class infer_vo():
                 cam_intrinsics[0,:] = cam_intrinsics[0,:] * self.new_img_w / self.raw_img_w
                 cam_intrinsics[1,:] = cam_intrinsics[1,:] * self.new_img_h / self.raw_img_w
             return cam_intrinsics
+        elif 'tum' in self.dataset:
+            cam_intrinsics = np.array([[525.0,0,319.5],[0,525.0,239.5],[0,0,1]])
+            cam_intrinsics[0,:] = cam_intrinsics[0,:] * self.new_img_w / self.raw_img_w
+            cam_intrinsics[1,:] = cam_intrinsics[1,:] * self.new_img_h / self.raw_img_w
+            return cam_intrinsics
     
     def load_images(self):
         path = self.img_dir
@@ -178,6 +186,18 @@ class infer_vo():
                 if 'png' in img:
                     image = cv2.imread(os.path.join(image_dir, img),1)
                     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                    image = cv2.resize(image, (new_img_w, new_img_h))
+                    images.append(image)
+            return images
+        elif 'tum' in self.dataset:
+            image_dir = os.path.join(seq_dir, 'rgb')
+            num = len(os.listdir(image_dir))
+            images = []
+            for img in sorted(os.listdir(image_dir)):
+                if 'png' in img:
+                    image = cv2.imread(os.path.join(image_dir, img))
+                    # print('IMG SHAPE', image.shape)
+                    # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                     image = cv2.resize(image, (new_img_w, new_img_h))
                     images.append(image)
             return images

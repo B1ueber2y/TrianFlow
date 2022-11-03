@@ -8,7 +8,7 @@ do
                         --traj_save_dir_txt results/kitti/$track/trianflow_results.txt \
                         --sequences_root_dir /media/airlabsimulation/Acer/Olaya_data/Datasets/SLAM/KITTI/data_odometry_color/dataset/sequences \
                         --sequence $track \
-                        --pretrained_model /media/airlabsimulation/Acer/Olaya_data/SLAM_SOA/TrianFlow/models/kitti_odo.pth 
+                        --pretrained_model /media/airlabsimulation/Acer/Olaya_data/SLAM_SOA/learning-based/TrianFlow/models/kitti_odo.pth 
                 
 done   
 
