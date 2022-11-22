@@ -1,6 +1,6 @@
 # TUM_tracks='Handheld/rgbd_dataset_freiburg1_360 TestingDebugging/rgbd_dataset_freiburg1_rpy StructureTexture/rgbd_dataset_freiburg3_nostructure_notexture_far StructureTexture/rgbd_dataset_freiburg3_nostructure_texture_near_withloop'
 
-TUM_tracks='Handheld/rgbd_dataset_freiburg1_360'
+TUM_tracks='rgbd_dataset_freiburg1_360'
 
 
 for track in $TUM_tracks
@@ -9,9 +9,9 @@ do
     python infer_vo.py  --config_file ./config/tum.yaml \
                         --gpu 0 \
                         --traj_save_dir_txt results/tum/$track/trianflow_results.txt \
-                        --sequences_root_dir /media/airlabsimulation/Acer/Olaya_data/Datasets/SLAM/tum_rgbd\
+                        --sequences_root_dir /home/olaya/Datasets/tum\
                         --sequence $track \
-                        --pretrained_model /media/airlabsimulation/Acer/Olaya_data/SLAM_SOA/learning-based/TrianFlow/models/tum.pth 
+                        --pretrained_model /home/olaya/dev/slam-survey/TrianFlow/models/tum.pth 
                 
 done   
 

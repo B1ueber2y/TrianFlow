@@ -9,7 +9,7 @@ do
                         --traj_save_dir_txt results/mimir/$track/trianflow_results.txt \
                         --sequences_root_dir /media/airlabsimulation/Acer/Olaya_data/Datasets/SLAM/MIMIR \
                         --sequence $track \
-                        --pretrained_model /media/airlabsimulation/Acer/Olaya_data/SLAM_SOA/learning-based/TrianFlow/models/tum.pth 
+                        --pretrained_model /home/olaya/dev/slam-survey/TrianFlow/models/tum.pth 
                 
 done   
 

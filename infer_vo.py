@@ -21,6 +21,7 @@ def save_traj(path, poses):
     path: file path of saved poses
     poses: list of global poses
     """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     f = open(path, 'w+')
     for i in range(len(poses)):
         pose = poses[i].flatten()[:12] # [3x4]
@@ -85,6 +86,9 @@ class infer_vo():
         if 'euroc' in self.dataset:
             self.raw_img_h = 480.0#320
             self.raw_img_w = 752.0#1024
+        if 'aqualoc' in self.dataset:
+            self.raw_img_h = 608.0#320
+            self.raw_img_w = 968.0#1024
         if 'mimir' in self.dataset:
             self.raw_img_h = 540.0#320
             self.raw_img_w = 720.0#1024
@@ -122,6 +126,21 @@ class infer_vo():
             cam_intrinsics = data[:3,:3]
             cam_intrinsics[0,:] = cam_intrinsics[0,:] * new_img_w / raw_img_w
             cam_intrinsics[1,:] = cam_intrinsics[1,:] * new_img_h / raw_img_h
+            return cam_intrinsics
+        elif 'aqualoc' in self.dataset:
+            path = os.path.dirname(os.path.dirname(os.path.dirname(path)))
+            intrinsics_file = os.path.join(path,'archaeo_calibration_files',"archaeo_camera_calib.yaml")
+            with open(intrinsics_file, 'r') as file:
+                sensor = yaml.safe_load(file)
+                sensor = sensor["cam0"]
+                fx = sensor['intrinsics'][0]
+                fy = sensor['intrinsics'][1]
+                cx = sensor['intrinsics'][2]
+                cy = sensor['intrinsics'][3]
+
+                cam_intrinsics = np.array([[fx,0,cx],[0,fy,cy],[0,0,1]])
+                cam_intrinsics[0,:] = cam_intrinsics[0,:] * self.new_img_w / self.raw_img_w
+                cam_intrinsics[1,:] = cam_intrinsics[1,:] * self.new_img_h / self.raw_img_w
             return cam_intrinsics
         elif 'euroc' in self.dataset:
             intrinsics_file = os.path.join(path, 'mav0', 'cam0','sensor.yaml')
@@ -189,6 +208,7 @@ class infer_vo():
                     image = cv2.resize(image, (new_img_w, new_img_h))
                     images.append(image)
             return images
+
         elif 'tum' in self.dataset:
             image_dir = os.path.join(seq_dir, 'rgb')
             num = len(os.listdir(image_dir))
@@ -200,6 +220,17 @@ class infer_vo():
                     # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                     image = cv2.resize(image, (new_img_w, new_img_h))
                     images.append(image)
+            return images
+
+        elif 'aqualoc' in self.dataset:
+            image_dir = seq_dir
+            num = len(os.listdir(image_dir))
+            images = []
+            for img in sorted(os.listdir(image_dir)):
+                image = cv2.imread(os.path.join(image_dir, img),1)
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                image = cv2.resize(image, (new_img_w, new_img_h))
+                images.append(image)
             return images
     
     def get_prediction(self, img1, img2, model, K, K_inv, match_num):
