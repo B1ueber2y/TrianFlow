@@ -2,8 +2,6 @@ cfg_name: 'aqualoc'
 
 # dataset
 raw_base_dir: '/home/olaya/Datasets/Aqualoc/Archaeological_site_sequences'
-gt_2012_dir: '/home4/zhaow/data/kitti_stereo/kitti_2012/training'
-gt_2015_dir: '/home4/zhaow/data/kitti_stereo/kitti_2015/training'
 dataset: 'aqualoc'
 num_scales: 3
 
