@@ -80,6 +80,36 @@ python ./core/evaluation/eval_odom.py --gt_txt [path/to/your/groundtruth/poses/t
 ```
 You could evaluate on the sampled KITTI odometry dataset by simply sampling the raw image sequences and gt-pose txt. Then run *infer_vo.py* on the sampled image sequence and *eval_odom.py* with predicted txt and sampled gt txt to get results.
 
+5. To get the predictions for visual odometry on EuRoC dataset run:
+```bash
+python infer_vo.py  --config_file ./config/euroc.yaml \
+                    --gpu [gpu_id] \
+                    --traj_save_dir_txt [where/to/save/the/prediction/file] \
+                    --sequences_root_dir [path/to/EuRoC/root] \
+                    --sequence [sequence/name] \ # e.g. MH_01_easy
+                    --pretrained_model [path/to/your/model]
+```
+
+6. To get the predictions for visual odometry on TUM-RGBD dataset run:
+```bash
+python infer_vo.py  --config_file ./config/tum.yaml \
+                    --gpu [gpu_id] \
+                    --traj_save_dir_txt [where/to/save/the/prediction/file] \
+                    --sequences_root_dir [path/to/TUM/root] \
+                    --sequence [sequence/name] \ # e.g. rgbd_dataset_freiburg1_360
+                    --pretrained_model [path/to/your/model]
+```
+
+7. To get the predictions for visual odometry on Aqualoc dataset run:
+```bash
+python infer_vo.py  --config_file ./config/aqualoc.yaml \
+                    --gpu [gpu_id] \
+                    --traj_save_dir_txt [where/to/save/the/prediction/file] \
+                    --sequences_root_dir [path/to/Aqualoc/root] \
+                    --sequence Archaeological_site_sequences/archaeo_sequence_[sequence_number]\_raw_data/raw_data/images_sequence_[sequence_number] \
+                    --pretrained_model [path/to/your/model]
+```
+
 ### Citation
 If you find our work useful in your research, please consider citing:
 ```
