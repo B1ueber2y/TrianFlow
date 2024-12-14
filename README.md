@@ -1,5 +1,5 @@
 ## Towards Better Generalization: Joint Depth-Pose Learning without PoseNet
-Created by <a href="https://github.com/thuzhaowang" target="_blank">Wang Zhao, <a href="http://b1ueber2y.me" target="_blank">Shaohui Liu</a>, Yezhi Shu, <a href="https://cg.cs.tsinghua.edu.cn/people/~Yongjin/Yongjin.htm" target="_blank">Yong-Jin Liu</a>.
+Created by <a href="https://github.com/thuzhaowang" target="_blank">Wang Zhao</a>, <a href="http://b1ueber2y.me" target="_blank">Shaohui Liu</a>, Yezhi Shu, <a href="https://cg.cs.tsinghua.edu.cn/people/~Yongjin/Yongjin.htm" target="_blank">Yong-Jin Liu</a>.
         
 ## Introduction
 This implementation is based on our CVPR'2020 paper "Towards Better Generalization: Joint Depth-Pose Learning without PoseNet". You can find the arXiv version of the paper <a href="https://arxiv.org/abs/2004.01314">here</a>. In this repository we release code and pre-trained models for *TrianFlow* (our method) and a strong baseline *PoseNet-Flow* method.
